@@ -8,9 +8,10 @@ jobs:
       - run: sudo apt-get update && sudo apt-get install -y imagemagick
       - run: |
           mkdir output
-          for img in input/*.png; do
+          shopt -s nullglob
+          for img in input/*.{png,jpg,jpeg,JPG,JPEG,PNG}; do
             name="${img##*/}"
-            name="${name%.png}"
+            name="${name%.*}"
             convert "$img" -resize 3600x5400\! "output/${name}_2x3.jpg"
             convert "$img" -resize 4000x5000\! "output/${name}_4x5.jpg"
             convert "$img" -resize 3600x4800\! "output/${name}_3x4.jpg"
