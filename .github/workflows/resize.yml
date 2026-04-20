@@ -4,8 +4,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - run: sudo apt-get install imagemagick
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y imagemagick
       - run: |
           mkdir output
           for img in input/*.png; do
@@ -17,7 +17,7 @@ jobs:
             convert "$img" -resize 5000x5000\! "output/${name}_1x1.jpg"
             convert "$img" -resize 3508x4961\! "output/${name}_A3.jpg"
           done
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: posters-listos
           path: output/
