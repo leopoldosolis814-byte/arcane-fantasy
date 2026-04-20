@@ -1,0 +1,22 @@
+name: Resize Posters
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: sudo apt-get install imagemagick
+      - run: |
+          mkdir output
+          for img in input/*.png; do
+            name=$(basename "$img".png)
+            convert "$img" -resize 3600x5400\! "output/${name}_2x3.jpg"
+            convert "$img" -resize 4000x5000\! "output/${name}_4x5.jpg"
+            convert "$img" -resize 3600x4800\! "output/${name}_3x4.jpg"
+            convert "$img" -resize 5000x5000\! "output/${name}_1x1.jpg"
+            convert "$img" -resize 3508x4961\! "output/${name}_A3.jpg"
+          done
+      - uses: actions/upload-artifact@v3
+        with:
+          name: posters-listos
+          path: output/
